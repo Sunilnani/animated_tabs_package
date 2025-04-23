@@ -15,7 +15,6 @@ A highly-customizable Flutter `TabContainer` widget with buttery-smooth animated
 ## 📸 Screenshots
 
 ![Card-style](https://raw.githubusercontent.com/Sunilnani/animated_tabs_package/main/assets/screenshotone.jpeg)
-![Bottom-tabs](https://raw.githubusercontent.com/Sunilnani/animated_tabs_package/main/assets/screenshottwo.jpeg)
 
 ## 🎬 Live demo
 
