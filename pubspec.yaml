@@ -1,6 +1,6 @@
 name: my_animated_tabs
 description: A highly-customizable Flutter TabContainer with buttery-smooth animated transitions.
-version: 1.0.1
+version: 1.0.2
 
 homepage:   https://github.com/Sunilnani/animated_tabs_package
 repository: https://github.com/Sunilnani/animated_tabs_package
