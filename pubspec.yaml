@@ -23,5 +23,4 @@ dev_dependencies:
 flutter:
   assets:
     - assets/screenshotone.jpeg
-    - assets/screenshottwo.jpeg
     - assets/demo.gif

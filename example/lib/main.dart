@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Animated Tabs Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
       home: const ExamplePage(),
@@ -36,10 +36,16 @@ class _ExamplePageState extends State<ExamplePage>
   late final TabController _controller;
 
   // 1) Define your tab/content colors once and for all
+  // final List<Color> _cardColors = const [
+  //   Color(0xff0077ff), // Blue
+  //   Color(0xff00c853), // Green
+  //   Color(0xffff9100), // Orange
+  // ];
   final List<Color> _cardColors = const [
-    Color(0xfffa86be),
-    Color(0xffa275e3),
-    Color(0xff9aebed),
+    Color(0xFF81D4FA),
+    Color(0xFFEC407A), // Pink 200
+    // Light Blue 200
+    Color(0xFFA5D6A7), // Light Green 200
   ];
 
   @override
@@ -60,252 +66,220 @@ class _ExamplePageState extends State<ExamplePage>
     return Scaffold(
       appBar: AppBar(title: const Text('Animated Tabs')),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
 
-            Material(
-              elevation: 8,
-              borderRadius: BorderRadius.circular(50),
-              child: TabContainer(
-                // controller: _controller,
-                tabEdge: TabEdge.top,
+              // Top edge text tabs
+              Material(
+                elevation: 8,
                 borderRadius: BorderRadius.circular(50),
-                tabBorderRadius: BorderRadius.circular(50),
-                tabMinLength: 80,
-                tabMaxLength: 120,
-                tabsStart: 0.1,
-                tabsEnd: 0.9,
-                colors: _cardColors,
-                curve: Curves.easeInOut,
-                transitionBuilder: (child, animation) {
-                  return ScaleTransition(
-                    scale: Tween(begin: 0.95, end: 1.0)
-                        .chain(CurveTween(curve: Curves.easeOutBack))
-                        .animate(animation),
-                    child: FadeTransition(opacity: animation, child: child),
-                  );
-                },
-                selectedTextStyle: textTheme.bodyMedium
-                    ?.copyWith(color: Colors.white, fontSize: 14),
-                unselectedTextStyle: textTheme.bodyMedium
-                    ?.copyWith(color: Colors.black54, fontSize: 13),
-                tabs: const [Text('Card A'), Text('Card B'), Text('Card C')],
-                children: _buildCards(),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-            Material(
-              elevation: 8,
-              borderRadius: BorderRadius.circular(50),
-              child: TabContainer(
-                // controller: _controller,
-                tabEdge: TabEdge.bottom,
-                borderRadius: BorderRadius.circular(50),
-                tabBorderRadius: BorderRadius.circular(50),
-                tabMinLength: 80,
-                tabMaxLength: 120,
-                tabsStart: 0.1,
-                tabsEnd: 0.9,
-                colors: _cardColors,
-                curve: Curves.easeInOut,
-                transitionBuilder: (child, animation) {
-                  return ScaleTransition(
-                    scale: Tween(begin: 0.95, end: 1.0)
-                        .chain(CurveTween(curve: Curves.easeOutBack))
-                        .animate(animation),
-                    child: FadeTransition(opacity: animation, child: child),
-                  );
-                },
-                selectedTextStyle: textTheme.bodyMedium
-                    ?.copyWith(color: Colors.white, fontSize: 14),
-                unselectedTextStyle: textTheme.bodyMedium
-                    ?.copyWith(color: Colors.black54, fontSize: 13),
-                tabs: const [
-                  Icon(Icons.credit_card),
-                  Icon(Icons.payment),
-                  Icon(Icons.account_balance),
-                ],
-                children: _buildCards(),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            // ——————————————————————————————————————————
-            // Top tabs with colored background & matching cards
-            SizedBox(
-              width: 400,
-              child: AspectRatio(
-                aspectRatio: 10 / 8,
                 child: TabContainer(
                   tabEdge: TabEdge.top,
-                  borderRadius: BorderRadius.circular(20),
-                  transitionBuilder: (child, animation) {
-                    final curved = CurvedAnimation(
-                      curve: Curves.easeIn,
-                      parent: animation,
-                    );
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0.2, 0.0),
-                        end: Offset.zero,
-                      ).animate(curved),
-                      child: FadeTransition(
-                        opacity: curved,
-                        child: child,
-                      ),
-                    );
-                  },
-                  curve: Curves.easeIn,
-                  colors: _cardColors,
-                  selectedTextStyle:
-                      textTheme.bodyMedium?.copyWith(fontSize: 15.0),
-                  unselectedTextStyle:
-                      textTheme.bodyMedium?.copyWith(fontSize: 13.0),
-                  tabs: _buildTabs1(),
-                  children: _buildChildren1(),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            // ——————————————————————————————————————————
-            // Bottom tabs example (unchanged)
-            SizedBox(
-              width: 400,
-              child: AspectRatio(
-                aspectRatio: 10 / 8,
-                child: TabContainer(
-                  borderRadius: BorderRadius.circular(20),
-                  tabEdge: TabEdge.bottom,
-                  curve: Curves.easeIn,
-                  transitionBuilder: (child, animation) {
-                    final curved = CurvedAnimation(
-                      curve: Curves.easeIn,
-                      parent: animation,
-                    );
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0.2, 0.0),
-                        end: Offset.zero,
-                      ).animate(curved),
-                      child: FadeTransition(
-                        opacity: curved,
-                        child: child,
-                      ),
-                    );
-                  },
-                  colors: _cardColors,
-                  selectedTextStyle:
-                      textTheme.bodyMedium?.copyWith(fontSize: 15.0),
-                  unselectedTextStyle:
-                      textTheme.bodyMedium?.copyWith(fontSize: 13.0),
-                  tabs: _buildTabs1(),
-                  children: _buildChildren1(),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            // ——————————————————————————————————————————
-            // Controller-driven (unchanged)
-            SizedBox(
-              height: 320,
-              width: 400,
-              child: TabContainer(
-                controller: _controller,
-                borderRadius: BorderRadius.zero,
-                tabBorderRadius: BorderRadius.zero,
-                color: Colors.black,
-                duration: const Duration(seconds: 0),
-                selectedTextStyle:
-                    textTheme.bodyMedium?.copyWith(color: Colors.white),
-                unselectedTextStyle:
-                    textTheme.bodyMedium?.copyWith(color: Colors.black),
-                tabs: _getTabs2(),
-                children: _getChildren2(),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  onPressed: () =>
-                      _controller.index = max(_controller.index - 1, 0),
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                IconButton(
-                  onPressed: () => _controller.index =
-                      min(_controller.index + 1, _controller.length - 1),
-                  icon: const Icon(Icons.arrow_forward),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 32),
-
-            // ——————————————————————————————————————————
-            // Right-edge tabs (unchanged)
-            SizedBox(
-              width: 400,
-              height: 400,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TabContainer(
-                  color: Colors.orange.shade100,
-                  tabEdge: TabEdge.right,
-                  childPadding: const EdgeInsets.all(20.0),
-                  tabs: _getTabs3(context),
-                  children: _getChildren3(context),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            // ——————————————————————————————————————————
-            // Left-edge tabs (unchanged)
-            SizedBox(
-              width: 400,
-              height: 400,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TabContainer(
-                  color: Theme.of(context).colorScheme.primary,
-                  tabEdge: TabEdge.left,
+                  borderRadius: BorderRadius.circular(50),
+                  tabBorderRadius: BorderRadius.circular(50),
+                  tabMinLength: 80,
+                  tabMaxLength: 120,
                   tabsStart: 0.1,
-                  tabsEnd: 0.6,
-                  childPadding: const EdgeInsets.all(20.0),
-                  tabs: _getTabs4(),
-                  selectedTextStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.0,
-                  ),
-                  unselectedTextStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 13.0,
-                  ),
-                  children: _getChildren4(),
+                  tabsEnd: 0.9,
+                  colors: _cardColors,
+                  curve: Curves.easeInOut,
+                  transitionBuilder: (child, animation) {
+                    return ScaleTransition(
+                      scale: Tween(begin: 0.95, end: 1.0)
+                          .chain(CurveTween(curve: Curves.easeOutBack))
+                          .animate(animation),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+                  selectedTextStyle: textTheme.bodyMedium
+                      ?.copyWith(color: Colors.white, fontSize: 14),
+                  unselectedTextStyle: textTheme.bodyMedium
+                      ?.copyWith(color: Colors.black54, fontSize: 13),
+                  tabs: const [Text('Card A'), Text('Card B'), Text('Card C')],
+                  children: _buildCards(),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 32),
-          ],
+              const SizedBox(height: 20),
+
+              // Bottom edge icon tabs
+              Material(
+                elevation: 8,
+                borderRadius: BorderRadius.circular(50),
+                child: TabContainer(
+                  tabEdge: TabEdge.bottom,
+                  borderRadius: BorderRadius.circular(50),
+                  tabBorderRadius: BorderRadius.circular(50),
+                  tabMinLength: 80,
+                  tabMaxLength: 120,
+                  tabsStart: 0.1,
+                  tabsEnd: 0.9,
+                  colors: _cardColors,
+                  curve: Curves.easeInOut,
+                  transitionBuilder: (child, animation) {
+                    return ScaleTransition(
+                      scale: Tween(begin: 0.95, end: 1.0)
+                          .chain(CurveTween(curve: Curves.easeOutBack))
+                          .animate(animation),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+                  selectedTextStyle: textTheme.bodyMedium
+                      ?.copyWith(color: Colors.white, fontSize: 14),
+                  unselectedTextStyle: textTheme.bodyMedium
+                      ?.copyWith(color: Colors.black54, fontSize: 13),
+                  tabs: const [
+                    Icon(Icons.credit_card),
+                    Icon(Icons.payment),
+                    Icon(Icons.account_balance),
+                  ],
+                  children: _buildCards(),
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              // ——————————————————————————————————————————
+              // Top tabs with colored background & matching cards
+              SizedBox(
+                width: 400,
+                child: AspectRatio(
+                  aspectRatio: 10 / 8,
+                  child: TabContainer(
+                    tabEdge: TabEdge.top,
+                    borderRadius: BorderRadius.circular(20),
+                    transitionBuilder: (child, animation) {
+                      final curved = CurvedAnimation(
+                        curve: Curves.easeIn,
+                        parent: animation,
+                      );
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0.2, 0.0),
+                          end: Offset.zero,
+                        ).animate(curved),
+                        child: FadeTransition(
+                          opacity: curved,
+                          child: child,
+                        ),
+                      );
+                    },
+                    curve: Curves.easeIn,
+                    colors: _cardColors,
+                    selectedTextStyle:
+                    textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+                    unselectedTextStyle:
+                    textTheme.bodyMedium?.copyWith(fontSize: 13.0),
+                    tabs: _buildTabs1(),
+                    children: _buildChildren1(),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // ——————————————————————————————————————————
+              // Bottom tabs example (unchanged)
+              SizedBox(
+                width: 400,
+                child: AspectRatio(
+                  aspectRatio: 10 / 8,
+                  child: TabContainer(
+                    borderRadius: BorderRadius.circular(20),
+                    tabEdge: TabEdge.bottom,
+                    curve: Curves.easeIn,
+                    transitionBuilder: (child, animation) {
+                      final curved = CurvedAnimation(
+                        curve: Curves.easeIn,
+                        parent: animation,
+                      );
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0.2, 0.0),
+                          end: Offset.zero,
+                        ).animate(curved),
+                        child: FadeTransition(
+                          opacity: curved,
+                          child: child,
+                        ),
+                      );
+                    },
+                    colors: _cardColors,
+                    selectedTextStyle:
+                    textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+                    unselectedTextStyle:
+                    textTheme.bodyMedium?.copyWith(fontSize: 13.0),
+                    tabs: _buildTabs1(),
+                    children: _buildChildren1(),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // ——————————————————————————————————————————
+              // Right-edge tabs (unchanged)
+              SizedBox(
+                width: 400,
+                height: 400,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TabContainer(
+                    color: Colors.orange.shade100,
+                    tabEdge: TabEdge.right,
+                    childPadding: const EdgeInsets.all(20.0),
+                    tabs: _getTabs3(context),
+                    children: _getChildren3(context),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // ——————————————————————————————————————————
+              // Left-edge tabs (unchanged)
+              SizedBox(
+                width: 400,
+                height: 400,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TabContainer(
+                    color: Theme.of(context).colorScheme.primary,
+                    tabEdge: TabEdge.left,
+                    tabsStart: 0.1,
+                    tabsEnd: 0.6,
+                    childPadding: const EdgeInsets.all(20.0),
+                    tabs: _getTabs4(),
+                    selectedTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.0,
+                    ),
+                    unselectedTextStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                    ),
+                    children: _getChildren4(),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  // Primary sample cards for the first two TabContainers
   List<Widget> _buildCards() {
     final sampleData = [
-      {'bank': 'Aerarium', 'number': '5234 4321 1234 4321', 'exp': '11/25'},
-      {'bank': 'Fiscal One', 'number': '4234 0567 8901 2345', 'exp': '07/24'},
-      {'bank': 'Aurora', 'number': '6789 1234 5678 9012', 'exp': '09/23'},
+      {'bank': 'Aurora Bank', 'number': '3812 1234 5678 9010', 'exp': '12/26'},
+      {'bank': 'Neptune Credit', 'number': '6011 9876 5432 1098', 'exp': '08/25'},
+      {'bank': 'Solstice', 'number': '4520 8888 2222 4444', 'exp': '03/27'},
     ];
 
     return List.generate(sampleData.length, (i) {
@@ -316,11 +290,11 @@ class _ExamplePageState extends State<ExamplePage>
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(0x26, 0, 0, 0),
               blurRadius: 12,
-              offset: const Offset(0, 6),
+              offset: Offset(0, 6),
             )
           ],
         ),
@@ -330,7 +304,7 @@ class _ExamplePageState extends State<ExamplePage>
           children: [
             Text(
               data['bank']!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.5,
@@ -339,7 +313,7 @@ class _ExamplePageState extends State<ExamplePage>
             const SizedBox(height: 16),
             Text(
               data['number']!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 2,
@@ -353,9 +327,7 @@ class _ExamplePageState extends State<ExamplePage>
     });
   }
 
-  // ——————————————————————————————————————————
-  // Updated helpers for the “colored cards” example:
-
+  // Colored-background cards example helpers
   List<Widget> _buildTabs1() {
     return List<Widget>.generate(_cardColors.length, (i) {
       final num = kCreditCards[i]['number'] as String;
@@ -374,159 +346,155 @@ class _ExamplePageState extends State<ExamplePage>
     });
   }
 
-  // ——————————————————————————————————————————
-  // Your existing other tabs:
-
+  // Other tabs examples (images, info, settings…)
   List<Widget> _getChildren2() => <Widget>[
-        Image.network(
-          'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=400&auto=format&fit=crop',
-        ),
-        Image.network(
-          'https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=400&auto=format&fit=crop',
-        ),
-        Image.network(
-          'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=400&auto=format&fit=crop',
-        ),
-      ];
+    Image.network(
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=400&auto=format&fit=crop',
+    ),
+    Image.network(
+      'https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=400&auto=format&fit=crop',
+    ),
+    Image.network(
+      'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=400&auto=format&fit=crop',
+    ),
+  ];
   List<Widget> _getTabs2() => const [
-        Text('Image 1'),
-        Text('Image 2'),
-        Text('Image 3'),
-      ];
+    Text('Image 1'),
+    Text('Image 2'),
+    Text('Image 3'),
+  ];
 
   List<Widget> _getChildren3(BuildContext context) => <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Info', style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 20),
-            const Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non ex ac metus facilisis pulvinar.',
-            ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Info', style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 20),
+        const Text(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non ex ac metus facilisis pulvinar.',
+        ),
+      ],
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Documents', style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 20),
+        const Text('Document 1'),
+        const Divider(),
+        const Text('Document 2'),
+        const Divider(),
+        const Text('Document 3'),
+      ],
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Profile', style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 20),
+        Row(
+          children: const [
+            Text('Username:'),
+            SizedBox(width: 10),
+            Text('John Doe'),
           ],
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Documents', style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 20),
-            const Text('Document 1'),
-            const Divider(),
-            const Text('Document 2'),
-            const Divider(),
-            const Text('Document 3'),
+        Row(
+          children: const [
+            Text('Email:'),
+            SizedBox(width: 10),
+            Text('john.doe@email.com'),
           ],
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Profile', style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 20),
-            Row(
-              children: const [
-                Text('Username:'),
-                SizedBox(width: 10),
-                Text('John Doe'),
-              ],
-            ),
-            Row(
-              children: const [
-                Text('Email:'),
-                SizedBox(width: 10),
-                Text('john.doe@email.com'),
-              ],
-            ),
-            Row(
-              children: const [
-                Text('Birthday:'),
-                SizedBox(width: 10),
-                Text('1/1/1985'),
-              ],
-            ),
+        Row(
+          children: const [
+            Text('Birthday:'),
+            SizedBox(width: 10),
+            Text('1/1/1985'),
           ],
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Settings', style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 20),
-            SwitchListTile(
-              title: const Text('Darkmode'),
-              value: false,
-              onChanged: (v) {},
-              secondary: const Icon(Icons.nightlight_outlined),
-            ),
-            SwitchListTile(
-              title: const Text('Analytics'),
-              value: false,
-              onChanged: (v) {},
-              secondary: const Icon(Icons.analytics),
-            ),
-          ],
+      ],
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Settings', style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 20),
+        SwitchListTile(
+          title: const Text('Darkmode'),
+          value: false,
+          onChanged: (v) {},
+          secondary: const Icon(Icons.nightlight_outlined),
         ),
-      ];
-
+        SwitchListTile(
+          title: const Text('Analytics'),
+          value: false,
+          onChanged: (v) {},
+          secondary: const Icon(Icons.analytics),
+        ),
+      ],
+    ),
+  ];
   List<Widget> _getTabs3(BuildContext context) => const [
-        Icon(Icons.info),
-        Icon(Icons.text_snippet),
-        Icon(Icons.person),
-        Icon(Icons.settings),
-      ];
+    Icon(Icons.info),
+    Icon(Icons.text_snippet),
+    Icon(Icons.person),
+    Icon(Icons.settings),
+  ];
 
   List<Widget> _getChildren4() => <Widget>[
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Page 1',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: Colors.white)),
-              const SizedBox(height: 50),
-              const Text(
-                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque est ac suscipit interdum. Donec accumsan metus sed purus ullamcorper tincidunt.''',
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
+    SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Page 1',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: Colors.white)),
+          const SizedBox(height: 50),
+          const Text(
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque est ac suscipit interdum. Donec accumsan metus sed purus ullamcorper tincidunt.',
+            style: TextStyle(color: Colors.white),
           ),
-        ),
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Page 2',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: Colors.white)),
-              const SizedBox(height: 50),
-              const Text(
-                '''Duis in tortor nisl. Vestibulum vitae ullamcorper urna. Donec pharetra laoreet lacus, non sagittis ante aliquet eget.''',
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
+        ],
+      ),
+    ),
+    SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Page 2',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: Colors.white)),
+          const SizedBox(height: 50),
+          const Text(
+            'Duis in tortor nisl. Vestibulum vitae ullamcorper urna. Donec pharetra laoreet lacus, non sagittis ante aliquet eget.',
+            style: TextStyle(color: Colors.white),
           ),
-        ),
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Page 3',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: Colors.white)),
-              const SizedBox(height: 50),
-              const Text(
-                '''Phasellus a rutrum lectus. Aenean sed mauris non augue hendrerit volutpat.''',
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
+        ],
+      ),
+    ),
+    SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Page 3',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: Colors.white)),
+          const SizedBox(height: 50),
+          const Text(
+            'Phasellus a rutrum lectus. Aenean sed mauris non augue hendrerit volutpat.',
+            style: TextStyle(color: Colors.white),
           ),
-        ),
-      ];
-
+        ],
+      ),
+    ),
+  ];
   List<Widget> _getTabs4() => const [Text('1'), Text('2'), Text('3')];
 }
 
@@ -552,11 +520,11 @@ class CreditCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(14.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color.fromARGB(0x40, 0, 0, 0),
             blurRadius: 8,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -639,38 +607,38 @@ class CreditCardData {
   });
 
   factory CreditCardData.fromJson(Map<String, dynamic> json) => CreditCardData(
-        index: json['index'],
-        bank: json['bank'],
-        name: json['name'],
-        number: json['number'],
-        expiration: json['expiration'],
-        cvc: json['cvc'],
-      );
+    index: json['index'],
+    bank: json['bank'],
+    name: json['name'],
+    number: json['number'],
+    expiration: json['expiration'],
+    cvc: json['cvc'],
+  );
 }
 
 const List<Map<String, dynamic>> kCreditCards = [
   {
     'index': 0,
-    'bank': 'Aerarium',
+    'bank': 'Aurora Bank',
     'name': 'John Doe',
-    'number': '5234 4321 1234 4321',
-    'expiration': '11/25',
+    'number': '3812 1234 5678 9010',
+    'expiration': '12/26',
     'cvc': '123',
   },
   {
     'index': 1,
-    'bank': 'Aerarium',
+    'bank': 'Neptune Credit',
     'name': 'John Doe',
-    'number': '4234 4321 1234 4321',
-    'expiration': '07/24',
+    'number': '6011 9876 5432 1098',
+    'expiration': '08/25',
     'cvc': '321',
   },
   {
     'index': 2,
-    'bank': 'Aerarium',
+    'bank': 'Solstice',
     'name': 'John Doe',
-    'number': '5234 4321 1234 4321',
-    'expiration': '09/23',
+    'number': '4520 8888 2222 4444',
+    'expiration': '03/27',
     'cvc': '456',
   },
 ];
