@@ -1,0 +1,14 @@
+name: example
+description: An example app demonstrating the use of the my_animated_tabs package.
+version: 1.0.0
+environment:
+  sdk: ">=2.19.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  my_animated_tabs:
+    path: ../  # Points to your package in the parent folder.
+
+flutter:
+  uses-material-design: true
