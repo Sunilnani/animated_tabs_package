@@ -42,7 +42,6 @@ class _ExamplePageState extends State<ExamplePage>
     Color(0xff9aebed),
   ];
 
-
   @override
   void initState() {
     super.initState();
@@ -69,7 +68,7 @@ class _ExamplePageState extends State<ExamplePage>
               elevation: 8,
               borderRadius: BorderRadius.circular(50),
               child: TabContainer(
-               // controller: _controller,
+                // controller: _controller,
                 tabEdge: TabEdge.top,
                 borderRadius: BorderRadius.circular(50),
                 tabBorderRadius: BorderRadius.circular(50),
@@ -101,7 +100,7 @@ class _ExamplePageState extends State<ExamplePage>
               elevation: 8,
               borderRadius: BorderRadius.circular(50),
               child: TabContainer(
-               // controller: _controller,
+                // controller: _controller,
                 tabEdge: TabEdge.bottom,
                 borderRadius: BorderRadius.circular(50),
                 tabBorderRadius: BorderRadius.circular(50),
@@ -134,7 +133,6 @@ class _ExamplePageState extends State<ExamplePage>
 
             const SizedBox(height: 40),
 
-
             // ——————————————————————————————————————————
             // Top tabs with colored background & matching cards
             SizedBox(
@@ -163,9 +161,9 @@ class _ExamplePageState extends State<ExamplePage>
                   curve: Curves.easeIn,
                   colors: _cardColors,
                   selectedTextStyle:
-                  textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+                      textTheme.bodyMedium?.copyWith(fontSize: 15.0),
                   unselectedTextStyle:
-                  textTheme.bodyMedium?.copyWith(fontSize: 13.0),
+                      textTheme.bodyMedium?.copyWith(fontSize: 13.0),
                   tabs: _buildTabs1(),
                   children: _buildChildren1(),
                 ),
@@ -202,9 +200,9 @@ class _ExamplePageState extends State<ExamplePage>
                   },
                   colors: _cardColors,
                   selectedTextStyle:
-                  textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+                      textTheme.bodyMedium?.copyWith(fontSize: 15.0),
                   unselectedTextStyle:
-                  textTheme.bodyMedium?.copyWith(fontSize: 13.0),
+                      textTheme.bodyMedium?.copyWith(fontSize: 13.0),
                   tabs: _buildTabs1(),
                   children: _buildChildren1(),
                 ),
@@ -225,9 +223,9 @@ class _ExamplePageState extends State<ExamplePage>
                 color: Colors.black,
                 duration: const Duration(seconds: 0),
                 selectedTextStyle:
-                textTheme.bodyMedium?.copyWith(color: Colors.white),
+                    textTheme.bodyMedium?.copyWith(color: Colors.white),
                 unselectedTextStyle:
-                textTheme.bodyMedium?.copyWith(color: Colors.black),
+                    textTheme.bodyMedium?.copyWith(color: Colors.black),
                 tabs: _getTabs2(),
                 children: _getChildren2(),
               ),
@@ -237,7 +235,7 @@ class _ExamplePageState extends State<ExamplePage>
               children: [
                 IconButton(
                   onPressed: () =>
-                  _controller.index = max(_controller.index - 1, 0),
+                      _controller.index = max(_controller.index - 1, 0),
                   icon: const Icon(Icons.arrow_back),
                 ),
                 IconButton(
@@ -320,7 +318,7 @@ class _ExamplePageState extends State<ExamplePage>
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: Color.fromARGB(0x26, 0, 0, 0),
               blurRadius: 12,
               offset: const Offset(0, 6),
             )
@@ -341,7 +339,7 @@ class _ExamplePageState extends State<ExamplePage>
             const SizedBox(height: 16),
             Text(
               data['number']!,
-              style:TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 2,
@@ -355,7 +353,6 @@ class _ExamplePageState extends State<ExamplePage>
     });
   }
 
-
   // ——————————————————————————————————————————
   // Updated helpers for the “colored cards” example:
 
@@ -368,9 +365,7 @@ class _ExamplePageState extends State<ExamplePage>
   }
 
   List<Widget> _buildChildren1() {
-    final cards = kCreditCards
-        .map((e) => CreditCardData.fromJson(e))
-        .toList();
+    final cards = kCreditCards.map((e) => CreditCardData.fromJson(e)).toList();
     return List<Widget>.generate(cards.length, (i) {
       return CreditCard(
         color: _cardColors[i],
@@ -383,157 +378,156 @@ class _ExamplePageState extends State<ExamplePage>
   // Your existing other tabs:
 
   List<Widget> _getChildren2() => <Widget>[
-    Image.network(
-      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=400&auto=format&fit=crop',
-    ),
-    Image.network(
-      'https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=400&auto=format&fit=crop',
-    ),
-    Image.network(
-      'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=400&auto=format&fit=crop',
-    ),
-  ];
+        Image.network(
+          'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=400&auto=format&fit=crop',
+        ),
+        Image.network(
+          'https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=400&auto=format&fit=crop',
+        ),
+        Image.network(
+          'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=400&auto=format&fit=crop',
+        ),
+      ];
   List<Widget> _getTabs2() => const [
-    Text('Image 1'),
-    Text('Image 2'),
-    Text('Image 3'),
-  ];
+        Text('Image 1'),
+        Text('Image 2'),
+        Text('Image 3'),
+      ];
 
   List<Widget> _getChildren3(BuildContext context) => <Widget>[
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Info', style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 20),
-        const Text(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non ex ac metus facilisis pulvinar.',
-        ),
-      ],
-    ),
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Documents', style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 20),
-        const Text('Document 1'),
-        const Divider(),
-        const Text('Document 2'),
-        const Divider(),
-        const Text('Document 3'),
-      ],
-    ),
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Profile', style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 20),
-        Row(
-          children: const [
-            Text('Username:'),
-            SizedBox(width: 10),
-            Text('John Doe'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Info', style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 20),
+            const Text(
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non ex ac metus facilisis pulvinar.',
+            ),
           ],
         ),
-        Row(
-          children: const [
-            Text('Email:'),
-            SizedBox(width: 10),
-            Text('john.doe@email.com'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Documents', style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 20),
+            const Text('Document 1'),
+            const Divider(),
+            const Text('Document 2'),
+            const Divider(),
+            const Text('Document 3'),
           ],
         ),
-        Row(
-          children: const [
-            Text('Birthday:'),
-            SizedBox(width: 10),
-            Text('1/1/1985'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Profile', style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 20),
+            Row(
+              children: const [
+                Text('Username:'),
+                SizedBox(width: 10),
+                Text('John Doe'),
+              ],
+            ),
+            Row(
+              children: const [
+                Text('Email:'),
+                SizedBox(width: 10),
+                Text('john.doe@email.com'),
+              ],
+            ),
+            Row(
+              children: const [
+                Text('Birthday:'),
+                SizedBox(width: 10),
+                Text('1/1/1985'),
+              ],
+            ),
           ],
         ),
-      ],
-    ),
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Settings', style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 20),
-        SwitchListTile(
-          title: const Text('Darkmode'),
-          value: false,
-          onChanged: (v) {},
-          secondary: const Icon(Icons.nightlight_outlined),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Settings', style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 20),
+            SwitchListTile(
+              title: const Text('Darkmode'),
+              value: false,
+              onChanged: (v) {},
+              secondary: const Icon(Icons.nightlight_outlined),
+            ),
+            SwitchListTile(
+              title: const Text('Analytics'),
+              value: false,
+              onChanged: (v) {},
+              secondary: const Icon(Icons.analytics),
+            ),
+          ],
         ),
-        SwitchListTile(
-          title: const Text('Analytics'),
-          value: false,
-          onChanged: (v) {},
-          secondary: const Icon(Icons.analytics),
-        ),
-      ],
-    ),
-  ];
+      ];
 
   List<Widget> _getTabs3(BuildContext context) => const [
-    Icon(Icons.info),
-    Icon(Icons.text_snippet),
-    Icon(Icons.person),
-    Icon(Icons.settings),
-  ];
+        Icon(Icons.info),
+        Icon(Icons.text_snippet),
+        Icon(Icons.person),
+        Icon(Icons.settings),
+      ];
 
   List<Widget> _getChildren4() => <Widget>[
-    SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Page 1',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.white)),
-          const SizedBox(height: 50),
-          const Text(
-            '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque est ac suscipit interdum. Donec accumsan metus sed purus ullamcorper tincidunt.''',
-            style: TextStyle(color: Colors.white),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Page 1',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(color: Colors.white)),
+              const SizedBox(height: 50),
+              const Text(
+                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque est ac suscipit interdum. Donec accumsan metus sed purus ullamcorper tincidunt.''',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-    SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Page 2',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.white)),
-          const SizedBox(height: 50),
-          const Text(
-            '''Duis in tortor nisl. Vestibulum vitae ullamcorper urna. Donec pharetra laoreet lacus, non sagittis ante aliquet eget.''',
-            style: TextStyle(color: Colors.white),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Page 2',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(color: Colors.white)),
+              const SizedBox(height: 50),
+              const Text(
+                '''Duis in tortor nisl. Vestibulum vitae ullamcorper urna. Donec pharetra laoreet lacus, non sagittis ante aliquet eget.''',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-    SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Page 3',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.white)),
-          const SizedBox(height: 50),
-          const Text(
-            '''Phasellus a rutrum lectus. Aenean sed mauris non augue hendrerit volutpat.''',
-            style: TextStyle(color: Colors.white),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Page 3',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(color: Colors.white)),
+              const SizedBox(height: 50),
+              const Text(
+                '''Phasellus a rutrum lectus. Aenean sed mauris non augue hendrerit volutpat.''',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-  ];
+        ),
+      ];
 
-  List<Widget> _getTabs4() =>
-      const [Text('1'), Text('2'), Text('3')];
+  List<Widget> _getTabs4() => const [Text('1'), Text('2'), Text('3')];
 }
 
 /// CreditCard widget and model
@@ -560,7 +554,7 @@ class CreditCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.25),
+            color: Color.fromARGB(0x40, 0, 0, 0),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -645,13 +639,13 @@ class CreditCardData {
   });
 
   factory CreditCardData.fromJson(Map<String, dynamic> json) => CreditCardData(
-    index: json['index'],
-    bank: json['bank'],
-    name: json['name'],
-    number: json['number'],
-    expiration: json['expiration'],
-    cvc: json['cvc'],
-  );
+        index: json['index'],
+        bank: json['bank'],
+        name: json['name'],
+        number: json['number'],
+        expiration: json['expiration'],
+        cvc: json['cvc'],
+      );
 }
 
 const List<Map<String, dynamic>> kCreditCards = [

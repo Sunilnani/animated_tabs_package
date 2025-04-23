@@ -1,16 +1,15 @@
-
 name: my_animated_tabs
 description: A highly-customizable Flutter TabContainer with buttery-smooth animated transitions.
 version: 1.0.0
-homepage: https://github.com/Sunilnani/animated_tabs_package
-repository: https://github.com/Sunilnani/animated_tabs_package
-license: MIT
 
-issue_tracker: https://github.com/yourusername/my_animated_tabs/issues
+homepage:   https://github.com/Sunilnani/animated_tabs_package
+repository: https://github.com/Sunilnani/animated_tabs_package
+issue_tracker: https://github.com/Sunilnani/animated_tabs_package/issues
+license: MIT
 
 environment:
   sdk: ^3.7.2
-  flutter: ">=1.17.0"
+  flutter: ">=3.10.0"     # 3.x guarantees Material 3 & Impeller fixes
 
 dependencies:
   flutter:
@@ -18,13 +17,11 @@ dependencies:
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
-  pedantic: ^1.11.0
+    sdk: flutter           # keeps the default test harness available
+  flutter_lints: ^3.0.1    # ← official lint rules used by most packages
 
 flutter:
-  # include your example assets (screenshots)
   assets:
     - assets/screenshotone.jpeg
     - assets/screenshottwo.jpeg
     - assets/demo.gif
-    # …add more as needed

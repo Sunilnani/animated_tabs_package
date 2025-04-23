@@ -49,9 +49,10 @@ class _TabViewport {
   final double tabsStart;
   final double tabsEnd;
 
-  double get side => (tabEdge == TabEdge.top || tabEdge == TabEdge.bottom)
-      ? parentSize.width
-      : parentSize.height;
+  double get side =>
+      (tabEdge == TabEdge.top || tabEdge == TabEdge.bottom)
+          ? parentSize.width
+          : parentSize.height;
 
   double get start => side * tabsStart;
   double get end => side * tabsEnd;
@@ -115,16 +116,16 @@ class TabContainer extends StatefulWidget {
     this.enableFeedback = true,
     this.childDuration,
     this.childCurve,
-  })  : assert((children == null) != (child == null)),
-        assert((children != null) ? children.length == tabs.length : true),
-        assert(controller == null ? true : controller.length == tabs.length),
-        assert(!(color != null && colors != null)),
-        assert((colors ?? tabs).length == tabs.length),
-        assert(tabExtent >= 0),
-        assert(0.0 <= tabsStart && tabsStart < tabsEnd && tabsEnd <= 1.0),
-        assert(tabMinLength >= 0),
-        assert(tabMaxLength >= tabMinLength),
-        assert((selectedTextStyle == null) == (unselectedTextStyle == null));
+  }) : assert((children == null) != (child == null)),
+       assert((children != null) ? children.length == tabs.length : true),
+       assert(controller == null ? true : controller.length == tabs.length),
+       assert(!(color != null && colors != null)),
+       assert((colors ?? tabs).length == tabs.length),
+       assert(tabExtent >= 0),
+       assert(0.0 <= tabsStart && tabsStart < tabsEnd && tabsEnd <= 1.0),
+       assert(tabMinLength >= 0),
+       assert(tabMaxLength >= tabMinLength),
+       assert((selectedTextStyle == null) == (unselectedTextStyle == null));
 
   final TabController? controller;
   final List<Widget>? children;
@@ -145,6 +146,7 @@ class TabContainer extends StatefulWidget {
   final Curve curve;
   final Duration? childDuration;
   final Curve? childCurve;
+
   /// Custom transition builder; if null, a beautiful default transition is applied.
   final Widget Function(Widget, Animation<double>)? transitionBuilder;
   final SemanticsConfiguration? semanticsConfiguration;
@@ -200,10 +202,12 @@ class _TabContainerState extends State<TabContainer>
 
   @override
   void didChangeDependencies() {
-    _selectedTextStyle = widget.selectedTextStyle ??
+    _selectedTextStyle =
+        widget.selectedTextStyle ??
         Theme.of(context).textTheme.bodyMedium ??
         const TextStyle();
-    _unselectedTextStyle = widget.unselectedTextStyle ??
+    _unselectedTextStyle =
+        widget.unselectedTextStyle ??
         Theme.of(context).textTheme.bodyMedium ??
         const TextStyle();
     _textDirection = widget.textDirection ?? Directionality.of(context);
@@ -240,8 +244,13 @@ class _TabContainerState extends State<TabContainer>
   void _animationListener() {
     _progress = _controller.animation!.value;
     if (widget.colors != null) {
-      _color = _spectrum?.lerp(_animationFraction(
-          _progress, _controller.previousIndex, _controller.index));
+      _color = _spectrum?.lerp(
+        _animationFraction(
+          _progress,
+          _controller.previousIndex,
+          _controller.index,
+        ),
+      );
     }
     _updateTabs(_controller.previousIndex, _controller.index);
   }
@@ -286,12 +295,17 @@ class _TabContainerState extends State<TabContainer>
       end: _selectedTextStyle,
     );
     final fraction = _animationFraction(
-        _progress, _controller.previousIndex, _controller.index);
+      _progress,
+      _controller.previousIndex,
+      _controller.index,
+    );
     if (index == _controller.index)
-      return tween.lerp(fraction)!
+      return tween
+          .lerp(fraction)
           .copyWith(fontSize: _unselectedTextStyle.fontSize);
     else if (index == _controller.previousIndex)
-      return tween.lerp(1 - fraction)!
+      return tween
+          .lerp(1 - fraction)
           .copyWith(fontSize: _unselectedTextStyle.fontSize);
     else
       return _unselectedTextStyle;
@@ -299,7 +313,10 @@ class _TabContainerState extends State<TabContainer>
 
   double _calculateTextScale(int index) {
     final fraction = _animationFraction(
-        _progress, _controller.previousIndex, _controller.index);
+      _progress,
+      _controller.previousIndex,
+      _controller.index,
+    );
     final ratio = _selectedTextStyle.fontSize! / _unselectedTextStyle.fontSize!;
     if (index == _controller.index)
       return lerpDouble(1, ratio, fraction)!;
@@ -356,23 +373,22 @@ class _TabContainerState extends State<TabContainer>
         scale: Tween<double>(begin: 0.9, end: 1.0).animate(curvedAnimation),
         child: RotationTransition(
           turns: Tween<double>(begin: 0.05, end: 0.0).animate(curvedAnimation),
-          child: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
+          child: FadeTransition(opacity: animation, child: child),
         ),
       ),
     );
   }
 
   void _buildChild() {
-    Widget child = widget.child ??
+    Widget child =
+        widget.child ??
         Padding(
           padding: widget.childPadding,
           child: AnimatedSwitcher(
             duration: widget.childDuration ?? widget.duration,
             switchInCurve: widget.childCurve ?? widget.curve,
-            transitionBuilder: widget.transitionBuilder ?? _defaultTransitionBuilder,
+            transitionBuilder:
+                widget.transitionBuilder ?? _defaultTransitionBuilder,
             child: IndexedStack(
               key: ValueKey<int>(_controller.index),
               index: _controller.index,
@@ -398,9 +414,10 @@ class _TabContainerState extends State<TabContainer>
       tabBorderRadius: widget.tabBorderRadius,
       tabExtent: widget.tabExtent,
       tabEdge: widget.tabEdge,
-      tabAxis: (widget.tabEdge == TabEdge.left || widget.tabEdge == TabEdge.right)
-          ? Axis.vertical
-          : Axis.horizontal,
+      tabAxis:
+          (widget.tabEdge == TabEdge.left || widget.tabEdge == TabEdge.right)
+              ? Axis.vertical
+              : Axis.horizontal,
       tabsStart: widget.tabsStart,
       tabsEnd: widget.tabsEnd,
       tabMinLength: widget.tabMinLength,
@@ -451,7 +468,8 @@ class _TabContainerFocusState extends State<TabContainerFocus> {
             return KeyEventResult.handled;
           } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
             widget.controller.animateTo(
-                min(widget.controller.index + 1, widget.controller.length - 1));
+              min(widget.controller.index + 1, widget.controller.length - 1),
+            );
             return KeyEventResult.handled;
           }
         }
@@ -599,28 +617,28 @@ class RenderTabFrame extends RenderBox
     required bool enabled,
     required bool enableFeedback,
     required TextDirection textDirection,
-  })  : _context = context,
-        _controller = controller,
-        _scrollController = scrollController,
-        _progress = progress,
-        _curve = curve,
-        _duration = duration,
-        _tabs = tabs,
-        _borderRadius = borderRadius,
-        _tabBorderRadius = tabBorderRadius,
-        _tabExtent = tabExtent,
-        _tabEdge = tabEdge,
-        _tabAxis = tabAxis,
-        _tabsStart = tabsStart,
-        _tabsEnd = tabsEnd,
-        _tabMinLength = tabMinLength,
-        _tabMaxLength = tabMaxLength,
-        _color = color,
-        _semanticsConfiguration = semanticsConfiguration,
-        _enabled = enabled,
-        _enableFeedback = enableFeedback,
-        _textDirection = textDirection,
-        super();
+  }) : _context = context,
+       _controller = controller,
+       _scrollController = scrollController,
+       _progress = progress,
+       _curve = curve,
+       _duration = duration,
+       _tabs = tabs,
+       _borderRadius = borderRadius,
+       _tabBorderRadius = tabBorderRadius,
+       _tabExtent = tabExtent,
+       _tabEdge = tabEdge,
+       _tabAxis = tabAxis,
+       _tabsStart = tabsStart,
+       _tabsEnd = tabsEnd,
+       _tabMinLength = tabMinLength,
+       _tabMaxLength = tabMaxLength,
+       _color = color,
+       _semanticsConfiguration = semanticsConfiguration,
+       _enabled = enabled,
+       _enableFeedback = enableFeedback,
+       _textDirection = textDirection,
+       super();
 
   BuildContext get context => _context;
   BuildContext _context;
@@ -851,7 +869,7 @@ class RenderTabFrame extends RenderBox
     bool isHit = false;
     for (var child = firstChild; child != null; child = childAfter(child)) {
       final TabFrameParentData childParentData =
-      child.parentData as TabFrameParentData;
+          child.parentData as TabFrameParentData;
       isHit = result.addWithPaintOffset(
         offset: childParentData.offset,
         position: position,
@@ -889,8 +907,10 @@ class RenderTabFrame extends RenderBox
   double _alignScrollDelta(PointerScrollEvent event) {
     final Set<LogicalKeyboardKey> pressed =
         HardwareKeyboard.instance.logicalKeysPressed;
-    final bool flipAxes = pressed.any(
-        ScrollConfiguration.of(context).pointerAxisModifiers.contains) &&
+    final bool flipAxes =
+        pressed.any(
+          ScrollConfiguration.of(context).pointerAxisModifiers.contains,
+        ) &&
         event.kind == PointerDeviceKind.mouse;
     return flipAxes ? event.scrollDelta.dx : event.scrollDelta.dy;
   }
@@ -907,8 +927,10 @@ class RenderTabFrame extends RenderBox
     if (_tabViewport.contains(dx, dy, _tabMetrics.totalLength)) {
       final double delta = _alignScrollDelta(event);
       if (delta != 0.0) {
-        GestureBinding.instance.pointerSignalResolver
-            .register(event, _handlePointerScroll);
+        GestureBinding.instance.pointerSignalResolver.register(
+          event,
+          _handlePointerScroll,
+        );
       }
     }
   }
@@ -938,10 +960,12 @@ class RenderTabFrame extends RenderBox
   }
 
   void _implicitScroll() {
-    final (destinationStart, destinationEnd) =
-    _getIndicatorBounds(controller.index.toDouble());
+    final (destinationStart, destinationEnd) = _getIndicatorBounds(
+      controller.index.toDouble(),
+    );
     if (destinationStart >= _tabViewport.start &&
-        destinationEnd <= _tabViewport.end) return;
+        destinationEnd <= _tabViewport.end)
+      return;
     final (indicatorStart, indicatorEnd) = _getIndicatorBounds(progress);
     if (indicatorEnd > _tabViewport.end &&
         indicatorStart >= _tabViewport.start) {
@@ -972,7 +996,7 @@ class RenderTabFrame extends RenderBox
     child.layout(constraints.deflate(edges), parentUsesSize: true);
     size = constraints.constrain(edges.inflateSize(child.size));
     final TabFrameParentData childParentData =
-    child.parentData as TabFrameParentData;
+        child.parentData as TabFrameParentData;
     if (tabEdge == TabEdge.left)
       childParentData.offset = Offset(tabExtent, 0);
     else if (tabEdge == TabEdge.top)
@@ -991,7 +1015,8 @@ class RenderTabFrame extends RenderBox
       minLength: tabMinLength,
       maxLength: tabMaxLength,
     );
-    bool tabViewportChanged = _prevTabViewport?.size != _tabViewport.size ||
+    bool tabViewportChanged =
+        _prevTabViewport?.size != _tabViewport.size ||
         _prevTabViewport?.start != _tabViewport.start;
     _prevTabViewport = _tabViewport;
     _tabOverflow = _tabMetrics.totalLength - _tabViewport.range;
@@ -1007,52 +1032,56 @@ class RenderTabFrame extends RenderBox
       if (tabAxis == Axis.vertical) {
         _clipPath = Path.combine(
           PathOperation.xor,
-          Path()
-            ..addRect(
-              Rect.fromPoints(
-                Offset(0, cutoff),
-                Offset(
-                  viewportWidth,
-                  min(size.height, cutoff + viewportHeight + brx),
-                ),
+          Path()..addRect(
+            Rect.fromPoints(
+              Offset(0, cutoff),
+              Offset(
+                viewportWidth,
+                min(size.height, cutoff + viewportHeight + brx),
               ),
             ),
-          Path()
-            ..addRect(
-              Rect.fromPoints(
-                Offset(tabExtent, 0),
-                Offset(size.width, size.height),
-              ),
+          ),
+          Path()..addRect(
+            Rect.fromPoints(
+              Offset(tabExtent, 0),
+              Offset(size.width, size.height),
             ),
+          ),
         );
         if (tabEdge == TabEdge.right) {
-          _clipPath = _clipPath!.transform((Matrix4.identity()
-            ..scale(-1.0, 1.0)
-            ..translate(-size.width, 0.0))
-              .storage);
+          _clipPath = _clipPath!.transform(
+            (Matrix4.identity()
+                  ..scale(-1.0, 1.0)
+                  ..translate(-size.width, 0.0))
+                .storage,
+          );
         }
       } else {
         _clipPath = Path.combine(
           PathOperation.xor,
-          Path()
-            ..addRect(
-              Rect.fromPoints(
-                Offset(cutoff, size.height - tabExtent),
-                Offset(
-                  min(size.width, cutoff + viewportWidth + brx),
-                  size.height,
-                ),
+          Path()..addRect(
+            Rect.fromPoints(
+              Offset(cutoff, size.height - tabExtent),
+              Offset(
+                min(size.width, cutoff + viewportWidth + brx),
+                size.height,
               ),
             ),
-          Path()
-            ..addRect(Rect.fromPoints(
-                Offset.zero, Offset(size.width, size.height - tabExtent))),
+          ),
+          Path()..addRect(
+            Rect.fromPoints(
+              Offset.zero,
+              Offset(size.width, size.height - tabExtent),
+            ),
+          ),
         );
         if (tabEdge == TabEdge.top) {
-          _clipPath = _clipPath!.transform((Matrix4.identity()
-            ..scale(1.0, -1.0)
-            ..translate(0.0, -size.height))
-              .storage);
+          _clipPath = _clipPath!.transform(
+            (Matrix4.identity()
+                  ..scale(1.0, -1.0)
+                  ..translate(0.0, -size.height))
+                .storage,
+          );
         }
       }
     }
@@ -1064,7 +1093,7 @@ class RenderTabFrame extends RenderBox
     for (var index = 0; child != null; index++, child = childAfter(child)) {
       child.layout(tabConstraints, parentUsesSize: true);
       final TabFrameParentData tabParentData =
-      child.parentData as TabFrameParentData;
+          child.parentData as TabFrameParentData;
       final double displacement = _tabMetrics.length * index - scrollOffset;
       final EdgeInsets tabInsets = EdgeInsets.only(
         top: (tabConstraints.maxHeight - child.size.height) / 2,
@@ -1120,8 +1149,7 @@ class RenderTabFrame extends RenderBox
   double computeMinIntrinsicWidth(double height) {
     final double childMinIntrinsicWidth =
         firstChild?.getMinIntrinsicWidth(height) ?? 0.0;
-    if (tabAxis == Axis.vertical)
-      return childMinIntrinsicWidth + tabExtent;
+    if (tabAxis == Axis.vertical) return childMinIntrinsicWidth + tabExtent;
     return childMinIntrinsicWidth;
   }
 
@@ -1129,8 +1157,7 @@ class RenderTabFrame extends RenderBox
   double computeMaxIntrinsicWidth(double height) {
     final double childMaxIntrinsicWidth =
         firstChild?.getMaxIntrinsicWidth(height) ?? 0.0;
-    if (tabAxis == Axis.vertical)
-      return childMaxIntrinsicWidth + tabExtent;
+    if (tabAxis == Axis.vertical) return childMaxIntrinsicWidth + tabExtent;
     return childMaxIntrinsicWidth;
   }
 
@@ -1138,8 +1165,7 @@ class RenderTabFrame extends RenderBox
   double computeMinIntrinsicHeight(double width) {
     final double childMinIntrinsicHeight =
         firstChild?.getMinIntrinsicHeight(width) ?? 0.0;
-    if (tabAxis == Axis.vertical)
-      return childMinIntrinsicHeight;
+    if (tabAxis == Axis.vertical) return childMinIntrinsicHeight;
     return childMinIntrinsicHeight + tabExtent;
   }
 
@@ -1147,8 +1173,7 @@ class RenderTabFrame extends RenderBox
   double computeMaxIntrinsicHeight(double width) {
     final double childMaxIntrinsicHeight =
         firstChild?.getMaxIntrinsicHeight(width) ?? 0.0;
-    if (tabAxis == Axis.vertical)
-      return childMaxIntrinsicHeight;
+    if (tabAxis == Axis.vertical) return childMaxIntrinsicHeight;
     return childMaxIntrinsicHeight + tabExtent;
   }
 
@@ -1158,7 +1183,7 @@ class RenderTabFrame extends RenderBox
 
   Path? _clipPath;
   final LayerHandle<ClipPathLayer> _clipPathLayer =
-  LayerHandle<ClipPathLayer>();
+      LayerHandle<ClipPathLayer>();
 
   (double, double) _getIndicatorBounds(double factor) {
     final double start =
@@ -1190,35 +1215,67 @@ class RenderTabFrame extends RenderBox
         critical3 = bly / sum2 * (height - indicatorEnd);
         critical4 = tblx / sum2 * (height - indicatorEnd);
       }
-      Path path = Path()
-        ..moveTo(width - borderRadius.topRight.x, 0)
-        ..quadraticBezierTo(width, 0, width, borderRadius.topRight.y)
-        ..lineTo(width, height - borderRadius.bottomRight.y)
-        ..quadraticBezierTo(
-            width, height, width - borderRadius.bottomRight.x, height)
-        ..lineTo(tabExtent + borderRadius.bottomLeft.x, height)
-        ..quadraticBezierTo(tabExtent, height, tabExtent,
-            max(height - (critical3 ?? bly), indicatorEnd))
-        ..lineTo(tabExtent, min(height, indicatorEnd + (critical4 ?? tblx)))
-        ..quadraticBezierTo(tabExtent, indicatorEnd,
-            tabExtent - tabBorderRadius.bottomLeft.y, indicatorEnd)
-        ..lineTo(tabBorderRadius.topLeft.y, indicatorEnd)
-        ..quadraticBezierTo(
-            0, indicatorEnd, 0, indicatorEnd - tabBorderRadius.topLeft.x)
-        ..lineTo(0, indicatorStart + tabBorderRadius.topRight.x)
-        ..quadraticBezierTo(
-            0, indicatorStart, tabBorderRadius.topRight.y, indicatorStart)
-        ..lineTo(tabExtent - tabBorderRadius.bottomRight.y, indicatorStart)
-        ..quadraticBezierTo(tabExtent, indicatorStart, tabExtent,
-            max(0, indicatorStart - (critical1 ?? tbrx)))
-        ..lineTo(tabExtent, min(critical2 ?? tly, indicatorStart))
-        ..quadraticBezierTo(tabExtent, 0, tabExtent + borderRadius.topLeft.x, 0)
-        ..close();
+      Path path =
+          Path()
+            ..moveTo(width - borderRadius.topRight.x, 0)
+            ..quadraticBezierTo(width, 0, width, borderRadius.topRight.y)
+            ..lineTo(width, height - borderRadius.bottomRight.y)
+            ..quadraticBezierTo(
+              width,
+              height,
+              width - borderRadius.bottomRight.x,
+              height,
+            )
+            ..lineTo(tabExtent + borderRadius.bottomLeft.x, height)
+            ..quadraticBezierTo(
+              tabExtent,
+              height,
+              tabExtent,
+              max(height - (critical3 ?? bly), indicatorEnd),
+            )
+            ..lineTo(tabExtent, min(height, indicatorEnd + (critical4 ?? tblx)))
+            ..quadraticBezierTo(
+              tabExtent,
+              indicatorEnd,
+              tabExtent - tabBorderRadius.bottomLeft.y,
+              indicatorEnd,
+            )
+            ..lineTo(tabBorderRadius.topLeft.y, indicatorEnd)
+            ..quadraticBezierTo(
+              0,
+              indicatorEnd,
+              0,
+              indicatorEnd - tabBorderRadius.topLeft.x,
+            )
+            ..lineTo(0, indicatorStart + tabBorderRadius.topRight.x)
+            ..quadraticBezierTo(
+              0,
+              indicatorStart,
+              tabBorderRadius.topRight.y,
+              indicatorStart,
+            )
+            ..lineTo(tabExtent - tabBorderRadius.bottomRight.y, indicatorStart)
+            ..quadraticBezierTo(
+              tabExtent,
+              indicatorStart,
+              tabExtent,
+              max(0, indicatorStart - (critical1 ?? tbrx)),
+            )
+            ..lineTo(tabExtent, min(critical2 ?? tly, indicatorStart))
+            ..quadraticBezierTo(
+              tabExtent,
+              0,
+              tabExtent + borderRadius.topLeft.x,
+              0,
+            )
+            ..close();
       if (tabEdge == TabEdge.right) {
-        return path.transform((Matrix4.identity()
-          ..scale(-1.0, 1.0)
-          ..translate(-width, 0.0))
-            .storage);
+        return path.transform(
+          (Matrix4.identity()
+                ..scale(-1.0, 1.0)
+                ..translate(-width, 0.0))
+              .storage,
+        );
       }
       return path;
     } else {
@@ -1236,37 +1293,68 @@ class RenderTabFrame extends RenderBox
         critical3 = tbrx / sum2 * (indicatorStart);
         critical4 = blx / sum2 * (indicatorStart);
       }
-      Path path = Path()
-        ..moveTo(0, borderRadius.topLeft.y)
-        ..quadraticBezierTo(0, 0, borderRadius.topLeft.x, 0)
-        ..lineTo(width - borderRadius.topRight.x, 0)
-        ..quadraticBezierTo(width, 0, width, borderRadius.topRight.y)
-        ..lineTo(width, height - tabExtent - borderRadius.bottomRight.y)
-        ..quadraticBezierTo(width, height - tabExtent,
-            max(width - (critical1 ?? brx), indicatorEnd), height - tabExtent)
-        ..lineTo(
-            min(width, indicatorEnd + (critical2 ?? tblx)), height - tabExtent)
-        ..quadraticBezierTo(indicatorEnd, height - tabExtent, indicatorEnd,
-            height - tabExtent + tabBorderRadius.bottomLeft.y)
-        ..lineTo(indicatorEnd, height - tabBorderRadius.topLeft.y)
-        ..quadraticBezierTo(indicatorEnd, height,
-            indicatorEnd - tabBorderRadius.topLeft.x, height)
-        ..lineTo(indicatorStart + tabBorderRadius.topRight.x, height)
-        ..quadraticBezierTo(indicatorStart, height, indicatorStart,
-            height - tabBorderRadius.topRight.y)
-        ..lineTo(
-            indicatorStart, height - tabExtent + tabBorderRadius.bottomRight.y)
-        ..quadraticBezierTo(indicatorStart, height - tabExtent,
-            max(0, indicatorStart - (critical3 ?? tbrx)), height - tabExtent)
-        ..lineTo(min(critical4 ?? blx, indicatorStart), height - tabExtent)
-        ..quadraticBezierTo(0, height - tabExtent, 0,
-            height - tabExtent - borderRadius.bottomLeft.y)
-        ..close();
+      Path path =
+          Path()
+            ..moveTo(0, borderRadius.topLeft.y)
+            ..quadraticBezierTo(0, 0, borderRadius.topLeft.x, 0)
+            ..lineTo(width - borderRadius.topRight.x, 0)
+            ..quadraticBezierTo(width, 0, width, borderRadius.topRight.y)
+            ..lineTo(width, height - tabExtent - borderRadius.bottomRight.y)
+            ..quadraticBezierTo(
+              width,
+              height - tabExtent,
+              max(width - (critical1 ?? brx), indicatorEnd),
+              height - tabExtent,
+            )
+            ..lineTo(
+              min(width, indicatorEnd + (critical2 ?? tblx)),
+              height - tabExtent,
+            )
+            ..quadraticBezierTo(
+              indicatorEnd,
+              height - tabExtent,
+              indicatorEnd,
+              height - tabExtent + tabBorderRadius.bottomLeft.y,
+            )
+            ..lineTo(indicatorEnd, height - tabBorderRadius.topLeft.y)
+            ..quadraticBezierTo(
+              indicatorEnd,
+              height,
+              indicatorEnd - tabBorderRadius.topLeft.x,
+              height,
+            )
+            ..lineTo(indicatorStart + tabBorderRadius.topRight.x, height)
+            ..quadraticBezierTo(
+              indicatorStart,
+              height,
+              indicatorStart,
+              height - tabBorderRadius.topRight.y,
+            )
+            ..lineTo(
+              indicatorStart,
+              height - tabExtent + tabBorderRadius.bottomRight.y,
+            )
+            ..quadraticBezierTo(
+              indicatorStart,
+              height - tabExtent,
+              max(0, indicatorStart - (critical3 ?? tbrx)),
+              height - tabExtent,
+            )
+            ..lineTo(min(critical4 ?? blx, indicatorStart), height - tabExtent)
+            ..quadraticBezierTo(
+              0,
+              height - tabExtent,
+              0,
+              height - tabExtent - borderRadius.bottomLeft.y,
+            )
+            ..close();
       if (tabEdge == TabEdge.top) {
-        return path.transform((Matrix4.identity()
-          ..scale(1.0, -1.0)
-          ..translate(0.0, -height))
-            .storage);
+        return path.transform(
+          (Matrix4.identity()
+                ..scale(1.0, -1.0)
+                ..translate(0.0, -height))
+              .storage,
+        );
       }
       return path;
     }
@@ -1276,7 +1364,12 @@ class RenderTabFrame extends RenderBox
     final Canvas canvas = context.canvas;
     final Paint paint = Paint()..color = color;
     // Optionally, add a drop shadow for depth:
-    canvas.drawShadow(_getPath(), Colors.black.withOpacity(0.25), 4.0, false);
+    canvas.drawShadow(
+      _getPath(),
+      const Color.fromARGB(0x40, 0, 0, 0),
+      4.0,
+      false,
+    );
     canvas.drawPath(_getPath(), paint);
     for (var child = firstChild; child != null; child = childAfter(child)) {
       context.paintChild(
@@ -1321,16 +1414,13 @@ class RenderTabFrame extends RenderBox
       return;
     }
     final int decreasedIndex = max(controller.index - 1, 0);
-    final int increasedIndex =
-    min(controller.index + 1, controller.length - 1);
+    final int increasedIndex = min(controller.index + 1, controller.length - 1);
     config
       ..label = 'Tab view'
       ..hint = 'Increase or decrease to view a different tab'
       ..value = _getTabSemanticText(controller.index, controller.length)
-      ..decreasedValue =
-      _getTabSemanticText(decreasedIndex, controller.length)
-      ..increasedValue =
-      _getTabSemanticText(increasedIndex, controller.length)
+      ..decreasedValue = _getTabSemanticText(decreasedIndex, controller.length)
+      ..increasedValue = _getTabSemanticText(increasedIndex, controller.length)
       ..onDecrease = enabled ? () => controller.index = decreasedIndex : null
       ..onIncrease = enabled ? () => controller.index = increasedIndex : null
       ..textDirection = textDirection
